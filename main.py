@@ -1,11 +1,5 @@
 import random, string
 
-# length = -1
-# while length < 0:
-#     length = int(input('Enter the length of the password: '))
-
-
-
 def get_characters():
     characters = string.ascii_letters + string.digits + string.punctuation
     character_set = []
@@ -17,31 +11,27 @@ def get_characters():
 def duplicates(numOfDup):
     i = 0
     while i < numOfDup:
-        print("You Password is ", ''.join(get_characters()))
+        print("You Password is ", ''.join(password_restriction()))
         print('\n')
         i += 1
+def password_restriction():
+    text = get_characters()
+    result = ''
+    countUpper = countLower = countDigit = countPunc = 0
+    for i in range(len(text)):
+        if text[i].isupper() and countUpper < 2:
+            countUpper += 1
+            result += text[i]
+        elif text[i].islower() and countLower < 2:
+            countLower += 1
+            result += text[i]
+        elif text[i].isdigit() and countDigit < 2:
+            countDigit += 1
+            result += text[i]
+        elif text[i] in string.punctuation and countPunc < 2:
+            countPunc += 1
+            result += text[i]
+    return result
 
-def check_letters(text):
-    words = text.split()
-    answer = ''
-    count_upper = 0
-    count_lower = 0
-    count_digit = 0
-    for i in text:
-        if words[i].isupper():
-            count_upper += 1
-            answer += words[i]
-        if count_upper == 2:
-            if words[i].lower():
-                count_lower += 1
-                answer += words[i]
-            if count_lower == 2:
-                if words[i].isdigit():
-                   count_digit += 1
-                   answer += words[i]
-                if count_digit == 2:
-                    return True
-                i += 1
-            i += 1
-        i += 1
-print(check_letters('aN4'))
+if __name__ == '__main__':
+    duplicates(3)
